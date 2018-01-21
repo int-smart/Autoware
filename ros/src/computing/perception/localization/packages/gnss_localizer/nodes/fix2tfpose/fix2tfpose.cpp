@@ -110,10 +110,10 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "fix2tfpose");
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");
-  private_nh.getParam("plane", _plane);
-  pose_publisher = nh.advertise<geometry_msgs::PoseStamped>("gnss_pose", 1000);
-  stat_publisher = nh.advertise<std_msgs::Bool>("/gnss_stat", 1000);
-  ros::Subscriber gnss_pose_subscriber = nh.subscribe("fix", 100, GNSSCallback);
+  private_nh.getParam("plane", _plane);       //puts the parameter with key "plane" in _plane variable 
+  pose_publisher = nh.advertise<geometry_msgs::PoseStamped>("gnss_pose", 1000); //publish to the gnss_pose topic, 1000 is the size of message queue
+  stat_publisher = nh.advertise<std_msgs::Bool>("/gnss_stat", 1000);  //similarly
+  ros::Subscriber gnss_pose_subscriber = nh.subscribe("fix", 100, GNSSCallback);  //subscribe to fix
 
   ros::spin();
   return 0;
