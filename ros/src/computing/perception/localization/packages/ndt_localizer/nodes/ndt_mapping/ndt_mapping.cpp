@@ -176,6 +176,7 @@ static int final_num_iteration;
 static sensor_msgs::Imu imu;
 static nav_msgs::Odometry odom;
 
+//param_callback is used to initialize the parameters
 static void param_callback(const autoware_msgs::ConfigNdtMapping::ConstPtr& input)
 {
   ndt_res = input->resolution;
@@ -196,10 +197,16 @@ static void param_callback(const autoware_msgs::ConfigNdtMapping::ConstPtr& inpu
   std::cout << "min_add_scan_shift: " << min_add_scan_shift << std::endl;
 }
 
+//Applying the voxel grid filter to the point cloud
+//file_res is one component of leaf_size for voxel grid filter. so leaf_size is (file_res,file_res,file_res)
+//map_ptr is declaring a ptr to original map of the point cloud
+//map_filtered is maybe the variable to store the filtered map.
+//I dont know why the header frame_id of the map_ptr and the map_filtered are set to "map". 
+//map_msg_ptr is the ROS message format for filtered map
 static void output_callback(const autoware_msgs::ConfigNdtMappingOutput::ConstPtr& input)
 {
-  double filter_res = input->filter_res;
-  std::string filename = input->filename;
+  double filter_res = input->filter_res;			
+  std::string filename = input->filename;		//name of pcd file to save the point cloud in
   std::cout << "output_callback" << std::endl;
   std::cout << "filter_res: " << filter_res << std::endl;
   std::cout << "filename: " << filename << std::endl;
